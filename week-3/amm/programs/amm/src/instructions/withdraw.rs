@@ -76,15 +76,16 @@ impl<'info> Withdraw<'info> {
         min_x: u64,  // Minimum amount of token X that the user wants to receive
         min_y: u64,  // Minimum amount of token Y that the user wants to receive
     ) -> Result<()> {
-        require!(self.config.locked == false, AmmError::PoolLocked);
-        require!(amount != 0, AmmError::InvalidAmount);
+        require!(!self.config.locked, AmmError::PoolLocked);
+        require_neq!(amount, 0, AmmError::InvalidAmount);
 
-        let (x, y) = match self.mint_lp.supply == 0
+        let (x, y) = if self.mint_lp.supply == 0
             && self.vault_x.amount == 0
             && self.vault_y.amount == 0
         {
-            true => (min_x, min_y),
-            false => {
+             (min_x, min_y)
+        }
+        else{
                 let amounts = ConstantProduct::xy_withdraw_amounts_from_l(
                     self.vault_x.amount,
                     self.vault_y.amount,
@@ -94,7 +95,6 @@ impl<'info> Withdraw<'info> {
                 )
                 .unwrap();
                 (amounts.x, amounts.y)
-            }
         };
 
         require!(x >= min_x && y >= min_y, AmmError::SlippageExceeded);

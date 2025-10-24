@@ -6,9 +6,15 @@ import {
   getAssociatedTokenAddress,
   createAssociatedTokenAccount,
   mintTo,
+  getOrCreateAssociatedTokenAccount,
+  getAccount,
+  getMint,
 } from "@solana/spl-token";
 import { SystemProgram, PublicKey } from "@solana/web3.js";
 import { Amm } from "../target/types/amm";
+import crypto from "crypto"
+import { assert } from "chai";
+import { Assert, equal } from "assert";
 
 describe("amm", () => {
   const provider = anchor.AnchorProvider.env();
@@ -27,7 +33,8 @@ describe("amm", () => {
   let userY: PublicKey;
   let userLp: PublicKey;
 
-  const seed = new anchor.BN("00000");
+  let seed = new anchor.BN(crypto.randomBytes(8).readBigUInt64LE().toString());
+  console.log("Seed: ", seed);
 
   const fee = 30;
 
@@ -74,7 +81,7 @@ describe("amm", () => {
   it("Fails to initialize again with the same seed", async () => {
     try {
       await program.methods
-        .initialize(seed, fee, wallet.publicKey)
+        .initialize(seed, fee + 1, wallet.publicKey)
         .accountsPartial({
           initializer: wallet.publicKey,
           mintX,
@@ -87,8 +94,8 @@ describe("amm", () => {
         .rpc();
 
       throw new Error("Initialization did not fail");
-    } catch (err: any) {
-      console.log("Initialization failed successfully:", err.message);
+    } catch (err) {
+      console.log("Initialization failed successfully:", err);
     }
   });
 
@@ -116,7 +123,7 @@ describe("amm", () => {
     console.log("Deposit successful:", tx);
   });
 
-  it("Fails deposit with amount = 0", async () => {
+  it("Deposit fails with amount = 0", async () => {
     try {
       await program.methods
         .deposit(new anchor.BN(0), new anchor.BN(1), new anchor.BN(1))
@@ -134,14 +141,52 @@ describe("amm", () => {
         })
         .rpc();
       throw new Error("Deposit did not fail");
-    } catch (err: any) {
-      console.log("Deposit failed successfully:", err.message);
+    } catch (err) {
+      assert.instanceOf(err, anchor.AnchorError);
+      assert.equal(err.error.errorCode.code, "InvalidAmount");
+    }
+  });
+
+  it("Deposit fails with slippage exceeded error", async () => {
+    // Based on the last the deposit the current amount in the pool would be:-
+    // pool x:- 200,000,000
+    // pool y:- 200,000,000    
+    // lp pool:- 100,000,000
+    
+    // so for a deposit of 100,000,000 200,000,000 would expect to be deposited to each pool
+    // so 199,999,999 should trigger a slippage error
+
+    await mintTo(connection, wallet.payer, mintX, userX, wallet.publicKey, 1_000_000_000);
+    await mintTo(connection, wallet.payer, mintY, userY, wallet.publicKey, 1_000_000_000);
+
+    userLp = await getAssociatedTokenAddress(mintLP, wallet.publicKey, true);
+
+    try{
+      await program.methods
+        .deposit(new anchor.BN(100_000_000), new anchor.BN(199_999_999), new anchor.BN(200_000_000))
+        .accountsPartial({
+          user: wallet.publicKey,
+          mintX,
+          mintY,
+          config,
+          mintLp: mintLP,
+          vaultX,
+          vaultY,
+          userX,
+          userY,
+          userLp: userLp
+        })
+        .rpc();
+      throw new Error("Deposit did not fail");
+    } catch (err) {
+      assert.instanceOf(err, anchor.AnchorError);
+      assert.equal(err.error.errorCode.code, "SlippageExceeded");
     }
   });
 
   it("Swaps token from X to Y", async () => {
     const tx = await program.methods
-      .swap(true, new anchor.BN(10_000_000), new anchor.BN(1))
+      .swap(true, new anchor.BN(10_000_000), new anchor.BN(5_000_000))
       .accountsPartial({
         user: wallet.publicKey,
         mintX,
@@ -158,7 +203,7 @@ describe("amm", () => {
     console.log("Swap successful:", tx);
   });
 
-  it("Fails swap with amount = 0", async () => {
+  it("Swap fails with amount = 0", async () => {
     try {
       await program.methods
         .swap(true, new anchor.BN(0), new anchor.BN(1))
@@ -176,8 +221,42 @@ describe("amm", () => {
         })
         .rpc();
       throw new Error("Swap did noy fail");
-    } catch (err: any) {
-      console.log("Swap failed successfully:", err.message);
+    } catch (err) {
+      assert.instanceOf(err, anchor.AnchorError);
+      assert.equal(err.error.errorCode.code, "InvalidAmount");    
+    }
+  });
+
+  it("Swap fails with slippage exceeded error", async () => {
+    const pool_x_balance = new anchor.BN((await getAccount(connection, vaultX)).amount);
+    const pool_y_balance = new anchor.BN((await getAccount(connection, vaultY)).amount);
+
+    const precision = new anchor.BN(6);
+
+    const y_amount_receiving = pool_y_balance.sub(((pool_x_balance.mul(pool_y_balance).mul(precision)).
+      div(pool_x_balance.add(new anchor.BN(5_000_000)))).
+      div(precision))
+
+    try {
+      await program.methods
+      .swap(true, new anchor.BN(5_000_000), y_amount_receiving.add(new anchor.BN(1))) // make it go past the slippage threshold
+        .accountsPartial({
+          user: wallet.publicKey,
+          mintX,
+          mintY,
+          config,
+          mintLp: mintLP,
+          vaultX,
+          vaultY,
+          userX,
+          userY,
+          userLp:userLp
+        })
+        .rpc();
+      throw new Error("Swap did noy fail");
+    } catch (err) {
+      assert.instanceOf(err, anchor.AnchorError);
+      assert.equal(err.error.errorCode.code, "SlippageExceeded");    
     }
   });
 
@@ -200,7 +279,7 @@ describe("amm", () => {
     console.log("Withdraw successful:", tx);
   });
 
-  it("Fails withdraw with amount = 0", async () => {
+  it("Withdraw fails with amount = 0", async () => {
     try {
       await program.methods
         .withdraw(new anchor.BN(0), new anchor.BN(1), new anchor.BN(1))
@@ -218,8 +297,46 @@ describe("amm", () => {
         })
         .rpc();
       throw new Error("Withdraw did not fail");
-    } catch (err: any) {
-      console.log("Withdraw failed successfully:", err.message);
+    } catch (err) {
+      assert.instanceOf(err, anchor.AnchorError);
+      assert.equal(err.error.errorCode.code, "InvalidAmount");    
+    }
+  });
+
+  it("Withdraw fails with slippage exceeded", async () => {
+
+    const pool_x_amount = new anchor.BN((await getAccount(connection, vaultX)).amount);
+    const lp_pool_amount = new anchor.BN((await getMint(connection, mintLP)).supply);
+
+    const precision = new anchor.BN(6);
+
+    const ratio_inverse = lp_pool_amount.
+      mul(precision).
+      div(lp_pool_amount.sub(new anchor.BN(5_000_000)));
+    
+    const x_amount_receiving = pool_x_amount.mul(precision).div(ratio_inverse);
+
+
+    try {
+      await program.methods
+        .withdraw(new anchor.BN(5_000_000), new anchor.BN(x_amount_receiving.add(new anchor.BN(1))), new anchor.BN(0)) // make it go past the slippage threshold
+        .accountsPartial({
+          user: wallet.publicKey,
+          mintX,
+          mintY,
+          config,
+          mintLp: mintLP,
+          vaultX,
+          vaultY,
+          userX,
+          userY,
+          userLp
+        })
+        .rpc();
+      throw new Error("Withdraw did not fail");
+    } catch (err) {
+      assert.instanceOf(err, anchor.AnchorError);
+      assert.equal(err.error.errorCode.code, "SlippageExceeded");    
     }
   });
 });

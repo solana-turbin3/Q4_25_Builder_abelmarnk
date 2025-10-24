@@ -69,15 +69,17 @@ impl<'info> Deposit<'info> {
         max_x: u64,  // Maximum amount of token X that the user is willing to deposit
         max_y: u64,  // Maximum amount of token Y that the user is willing to deposit
     ) -> Result<()> {
-        require!(self.config.locked == false, AmmError::PoolLocked);
-        require!(amount != 0, AmmError::InvalidAmount);
+        require!(!self.config.locked, AmmError::PoolLocked);
+        require_neq!(amount, 0, AmmError::InvalidAmount);
 
-        let (x, y) = match self.mint_lp.supply == 0
+        let (x, y) = if self.mint_lp.supply == 0
             && self.vault_x.amount == 0
             && self.vault_y.amount == 0
         {
-            true => (max_x, max_y),
-            false => {
+            (max_x, max_y)
+
+        }
+        else{
                 let amounts = ConstantProduct::xy_deposit_amounts_from_l(
                     self.vault_x.amount,
                     self.vault_y.amount,
@@ -86,11 +88,12 @@ impl<'info> Deposit<'info> {
                     6,
                 )
                 .unwrap();
-                (amounts.x, amounts.y)
-            }
+            
+            require!(amounts.x <= max_x &&amounts.y <= max_y, AmmError::SlippageExceeded);
+            
+            (amounts.x, amounts.y)
         };
 
-        require!(x <= max_x && y <= max_y, AmmError::SlippageExceeded);
 
         // deposit token x
         self.deposit_tokens(true, x)?;

@@ -1,0 +1,42 @@
+[2025-10-24--22-13-49 INFO actix_server::builder] starting 5 workers
+[2025-10-24--22-13-49 INFO actix_server::server] Tokio runtime found; starting in existing Tokio runtime
+[2025-10-24--22-13-49 INFO actix_server::server] starting service: "actix-web-service-127.0.0.1:18488", workers: 5, listening on: 127.0.0.1:18488
+[2025-10-24--22-13-50 INFO parity_ws] Listening for new connections on 127.0.0.1:8900.
+[2025-10-24--22-13-52 INFO txtx::svm::deploy_program] [Recovery Instructions] - An ephemeral authority account will be created and funded to write to the buffer account.
+[2025-10-24--22-13-52 INFO txtx::svm::deploy_program] [Recovery Instructions] - Please save the following information in case the deployment fails and the account needs to be recovered:
+[2025-10-24--22-13-52 INFO txtx::svm::deploy_program] [Recovery Instructions] - Ephemeral authority public key: BLoLuPEUkAvT1SYsqcABM6F9CewRsL962ZZrwoKHtpzG
+[2025-10-24--22-13-52 INFO txtx::svm::deploy_program] [Recovery Instructions] - Ephemeral authority secret key: [116, 212, 245, 246, 23, 247, 223, 34, 90, 136, 124, 24, 155, 62, 91, 221, 62, 208, 255, 73, 94, 180, 226, 63, 78, 227, 55, 46, 125, 44, 233, 109, 153, 167, 78, 21, 63, 0, 65, 210, 83, 143, 254, 168, 211, 213, 126, 52, 195, 145, 253, 146, 235, 147, 43, 228, 9, 198, 32, 236, 230, 197, 130, 77]
+[2025-10-24--22-13-53 INFO txtx::svm::deploy_program] Account Created - Ephemeral authority account created and funded to write to buffer
+[2025-10-24--22-13-53 INFO txtx::svm::deploy_program] [Recovery Instructions] - Creating program buffer account at pubkey 4w8F8D8XyiJRW2p85kSERCNRrQjJMjpDst4boz73wtrP
+[2025-10-24--22-13-53 INFO txtx::svm::deploy_program] Account Created - Program buffer account created
+[2025-10-24--22-13-56 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:40970.
+[2025-10-24--22-13-57 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:40978.
+[2025-10-24--22-13-59 ERROR litesvm] Program account EPMnZjL1qQsCeAoQh4iQWhJswbNY6L32xu5Y2PtrPwsM is not executable.
+[2025-10-24--22-13-59 ERROR litesvm] Program account EPMnZjL1qQsCeAoQh4iQWhJswbNY6L32xu5Y2PtrPwsM is not executable.
+[2025-10-24--22-13-59 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:40992.
+[2025-10-24--22-13-59 ERROR litesvm] Program account EPMnZjL1qQsCeAoQh4iQWhJswbNY6L32xu5Y2PtrPwsM is not executable.
+[2025-10-24--22-13-59 ERROR litesvm] Program account EPMnZjL1qQsCeAoQh4iQWhJswbNY6L32xu5Y2PtrPwsM is not executable.
+[2025-10-24--22-14-00 ERROR litesvm] Program account EPMnZjL1qQsCeAoQh4iQWhJswbNY6L32xu5Y2PtrPwsM is not executable.
+[2025-10-24--22-14-00 ERROR litesvm] Program account EPMnZjL1qQsCeAoQh4iQWhJswbNY6L32xu5Y2PtrPwsM is not executable.
+[2025-10-24--22-14-00 ERROR litesvm] Program account EPMnZjL1qQsCeAoQh4iQWhJswbNY6L32xu5Y2PtrPwsM is not executable.
+[2025-10-24--22-14-01 ERROR litesvm] Program account EPMnZjL1qQsCeAoQh4iQWhJswbNY6L32xu5Y2PtrPwsM is not executable.
+[2025-10-24--22-14-01 ERROR litesvm] Program account EPMnZjL1qQsCeAoQh4iQWhJswbNY6L32xu5Y2PtrPwsM is not executable.
+[2025-10-24--22-14-02 INFO txtx::svm::deploy_program] Buffer Ready - Writing to buffer account is complete
+[2025-10-24--22-14-03 INFO txtx::svm::deploy_program] Program Created - Program EPMnZjL1qQsCeAoQh4iQWhJswbNY6L32xu5Y2PtrPwsM has been deployed
+[2025-10-24--22-14-04 INFO txtx::svm::deploy_program] Complete - Ephemeral authority account closed and leftover funds returned to payer
+[2025-10-24--22-15-08 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:41912.
+[2025-10-24--22-15-10 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:41926.
+[2025-10-24--22-17-11 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:39894.
+[2025-10-24--22-17-14 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:39904.
+[2025-10-24--22-18-42 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:33140.
+[2025-10-24--22-18-44 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:33152.
+[2025-10-24--22-19-30 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:44076.
+[2025-10-24--22-19-32 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:35860.
+[2025-10-24--22-19-56 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:57702.
+[2025-10-24--22-19-58 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:57714.
+[2025-10-24--22-22-10 INFO actix_server::worker] shutting down idle worker
+[2025-10-24--22-22-10 INFO actix_server::worker] shutting down idle worker
+[2025-10-24--22-22-10 INFO actix_server::worker] shutting down idle worker
+[2025-10-24--22-22-10 INFO actix_server::worker] shutting down idle worker
+[2025-10-24--22-22-10 INFO actix_server::worker] shutting down idle worker
+[2025-10-24--22-22-10 INFO actix_server::accept] accept thread stopped
