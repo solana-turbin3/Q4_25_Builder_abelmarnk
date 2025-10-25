@@ -75,6 +75,16 @@ describe("amm", () => {
         config
       })
       .rpc();
+
+
+    const configAccount = await program.account.config.fetch(config);
+    assert.equal(configAccount.seed.toString(), seed.toString());
+    assert.equal(configAccount.fee, fee);
+    assert.equal(configAccount.mintX.toBase58(), mintX.toBase58());
+    assert.equal(configAccount.mintY.toBase58(), mintY.toBase58());
+    assert.equal(configAccount.authority.toBase58(), wallet.publicKey.toBase58());
+    assert.equal(configAccount.locked, false);
+
     console.log("Successfully initialized transaction:", tx);
   });
 
@@ -93,9 +103,9 @@ describe("amm", () => {
         })
         .rpc();
 
-      throw new Error("Initialization did not fail");
+        throw new Error("Initialization did not fail");
     } catch (err) {
-      console.log("Initialization failed successfully:", err);
+      assert(err.toString().includes("already in use"));
     }
   });
 
@@ -120,6 +130,13 @@ describe("amm", () => {
         userLp: userLp
       })
       .rpc();
+    const userAccount = await getAccount(connection, userLp);
+    assert.equal(userAccount.amount.toString(), "100000000");
+    const vaultXAccount = await getAccount(connection, vaultX);
+    assert.equal(vaultXAccount.amount.toString(), "200000000");
+    const vaultYAccount = await getAccount(connection, vaultY);
+    assert.equal(vaultYAccount.amount.toString(), "200000000");
+    
     console.log("Deposit successful:", tx);
   });
 
@@ -185,6 +202,11 @@ describe("amm", () => {
   });
 
   it("Swaps token from X to Y", async () => {
+    const userXAccountBefore = new anchor.BN((await getAccount(connection, userX)).amount);
+    const userYAccountBefore = new anchor.BN((await getAccount(connection, userY)).amount);
+    const vaultXAccountBefore = new anchor.BN((await getAccount(connection, vaultX)).amount);
+    const vaultYAccountBefore = new anchor.BN((await getAccount(connection, vaultY)).amount);
+
     const tx = await program.methods
       .swap(true, new anchor.BN(10_000_000), new anchor.BN(5_000_000))
       .accountsPartial({
@@ -200,6 +222,17 @@ describe("amm", () => {
         userLp:userLp
       })
       .rpc();
+    const userXAccountAfter = new anchor.BN((await getAccount(connection, userX)).amount);
+    const userYAccountAfter = new anchor.BN((await getAccount(connection, userY)).amount);
+    const vaultXAccountAfter = new anchor.BN((await getAccount(connection, vaultX)).amount);
+    const vaultYAccountAfter = new anchor.BN((await getAccount(connection, vaultY)).amount);
+
+    assert.equal(userXAccountAfter.toString(), userXAccountBefore.sub(new anchor.BN(10_000_000)).toString());
+    const userYReceived = userYAccountAfter.sub(userYAccountBefore);
+    assert(userYReceived.gte(new anchor.BN(5_000_000)));
+    assert.equal(vaultXAccountAfter.toString(), vaultXAccountBefore.add(new anchor.BN(10_000_000)).toString());
+    assert.equal(vaultYAccountBefore.sub(vaultYAccountAfter).toString(), userYReceived.toString());
+
     console.log("Swap successful:", tx);
   });
 
@@ -261,8 +294,14 @@ describe("amm", () => {
   });
 
   it("Withdraws liquidity", async () => {
+    const userXAccountBefore = new anchor.BN((await getAccount(connection, userX)).amount);
+    const userYAccountBefore = new anchor.BN((await getAccount(connection, userY)).amount);
+    const vaultXAccountBefore = new anchor.BN((await getAccount(connection, vaultX)).amount);
+    const vaultYAccountBefore = new anchor.BN((await getAccount(connection, vaultY)).amount);
+    const userLpAccountBefore = new anchor.BN((await getAccount(connection, userLp)).amount);
+
     const tx = await program.methods
-      .withdraw(new anchor.BN(10_000_000), new anchor.BN(1), new anchor.BN(1))
+      .withdraw(new anchor.BN(10_000_000), new anchor.BN(20_000_000), new anchor.BN(20_000_000))
       .accountsPartial({
         user: wallet.publicKey,
         mintX,
@@ -276,6 +315,20 @@ describe("amm", () => {
         userLp
       })
       .rpc();
+    const userXAccountAfter = new anchor.BN((await getAccount(connection, userX)).amount);
+    const userYAccountAfter = new anchor.BN((await getAccount(connection, userY)).amount);
+    const vaultXAccountAfter = new anchor.BN((await getAccount(connection, vaultX)).amount);
+    const vaultYAccountAfter = new anchor.BN((await getAccount(connection, vaultY)).amount);
+    const userLpAccountAfter = new anchor.BN((await getAccount(connection, userLp)).amount);
+    
+    assert.equal(userLpAccountAfter.toString(), userLpAccountBefore.sub(new anchor.BN(10_000_000)).toString());
+    const userXReceived = userXAccountAfter.sub(userXAccountBefore);
+    assert(userXReceived.gte(new anchor.BN(20_000_000)));
+    const userYReceived = userYAccountAfter.sub(userYAccountBefore);
+    assert(userYReceived.gte(new anchor.BN(20_000_000)));
+    assert.equal(vaultXAccountBefore.sub(vaultXAccountAfter).toString(), userXReceived.toString());
+    assert.equal(vaultYAccountBefore.sub(vaultYAccountAfter).toString(), userYReceived.toString());
+    
     console.log("Withdraw successful:", tx);
   });
 

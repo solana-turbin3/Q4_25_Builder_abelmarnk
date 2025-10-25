@@ -1,0 +1,38 @@
+[2025-10-25--09-40-51 INFO actix_server::builder] starting 5 workers
+[2025-10-25--09-40-51 INFO actix_server::server] Tokio runtime found; starting in existing Tokio runtime
+[2025-10-25--09-40-51 INFO actix_server::server] starting service: "actix-web-service-127.0.0.1:18488", workers: 5, listening on: 127.0.0.1:18488
+[2025-10-25--09-40-53 INFO parity_ws] Listening for new connections on 127.0.0.1:8900.
+[2025-10-25--09-40-56 INFO txtx::svm::deploy_program] [Recovery Instructions] - An ephemeral authority account will be created and funded to write to the buffer account.
+[2025-10-25--09-40-56 INFO txtx::svm::deploy_program] [Recovery Instructions] - Please save the following information in case the deployment fails and the account needs to be recovered:
+[2025-10-25--09-40-56 INFO txtx::svm::deploy_program] [Recovery Instructions] - Ephemeral authority public key: 5J4crtUVfi6iSf5SptUfRyxGo2j1ShHxaC4jUXNNsxjk
+[2025-10-25--09-40-56 INFO txtx::svm::deploy_program] [Recovery Instructions] - Ephemeral authority secret key: [22, 110, 172, 66, 98, 98, 200, 231, 56, 210, 242, 16, 106, 24, 129, 155, 159, 92, 199, 206, 47, 229, 88, 167, 179, 135, 134, 200, 232, 237, 98, 200, 63, 205, 182, 112, 222, 189, 114, 25, 78, 39, 91, 145, 175, 1, 197, 143, 10, 169, 141, 139, 241, 45, 11, 65, 178, 109, 14, 209, 233, 142, 195, 171]
+[2025-10-25--09-40-57 INFO txtx::svm::deploy_program] Account Created - Ephemeral authority account created and funded to write to buffer
+[2025-10-25--09-40-57 INFO txtx::svm::deploy_program] [Recovery Instructions] - Creating program buffer account at pubkey 9ra2FU94e5p4wuHmcksRLpzTNN74MVKi9UKYd4wnNKcN
+[2025-10-25--09-40-58 INFO txtx::svm::deploy_program] Account Created - Program buffer account created
+[2025-10-25--09-41-04 INFO txtx::svm::deploy_program] Buffer Ready - Writing to buffer account is complete
+[2025-10-25--09-41-04 INFO txtx::svm::deploy_program] Program Created - Program EPMnZjL1qQsCeAoQh4iQWhJswbNY6L32xu5Y2PtrPwsM has been deployed
+[2025-10-25--09-41-05 INFO txtx::svm::deploy_program] Complete - Ephemeral authority account closed and leftover funds returned to payer
+[2025-10-25--09-41-36 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:58888.
+[2025-10-25--09-41-38 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:58896.
+[2025-10-25--09-44-24 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:56768.
+[2025-10-25--09-44-28 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:44090.
+[2025-10-25--09-45-12 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:48204.
+[2025-10-25--09-45-14 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:48210.
+[2025-10-25--09-45-35 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:59546.
+[2025-10-25--09-45-36 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:36304.
+[2025-10-25--09-45-54 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:51828.
+[2025-10-25--09-45-56 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:59732.
+[2025-10-25--09-46-46 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:46952.
+[2025-10-25--09-46-48 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:46968.
+[2025-10-25--09-47-35 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:59480.
+[2025-10-25--09-47-37 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:38580.
+[2025-10-25--09-55-05 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:46206.
+[2025-10-25--09-55-08 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:46220.
+[2025-10-25--09-55-09 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:46224.
+[2025-10-25--09-55-11 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:46226.
+[2025-10-25--09-55-53 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:38262.
+[2025-10-25--09-55-55 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:38276.
+[2025-10-25--09-56-18 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:52458.
+[2025-10-25--09-56-20 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:52474.
+[2025-10-25--09-58-19 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:49284.
+[2025-10-25--09-58-21 INFO parity_ws::io] Accepted a new tcp connection from 127.0.0.1:49286.
