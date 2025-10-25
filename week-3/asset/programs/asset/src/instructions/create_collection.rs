@@ -10,8 +10,8 @@ use crate::{
 pub struct CreateCollectionArgs {
     pub name: String,
     pub uri: String,
-    pub nft_name: String,
-    pub nft_uri: String,
+    pub default_nft_name: String,
+    pub default_nft_uri: String,
 }
 
 #[derive(Accounts)]
@@ -60,8 +60,8 @@ impl<'info> CreateCollection<'info> {
             bump: bumps.collection_authority,
             creator: self.creator.key(),
             collection: self.collection.key(),
-            nft_name: args.nft_name,
-            nft_uri: args.nft_uri,
+            default_nft_name: args.default_nft_name,
+            default_nft_uri: args.default_nft_uri,
         });
 
         let signer_seeds: &[&[&[u8]]] = &[&[

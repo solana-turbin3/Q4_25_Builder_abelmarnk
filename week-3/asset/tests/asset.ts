@@ -1,17 +1,20 @@
 import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
-import { AnchorMplxcoreQ425 } from "../target/types/asset";
+import { Asset } from "../target/types/asset";
 import { PublicKey, Keypair, SystemProgram } from "@solana/web3.js";
 import { assert } from "chai";
-import { MPL_CORE_PROGRAM_ID } from "@metaplex-foundation/mpl-core";
+import { MPL_CORE_PROGRAM_ID, AssetV1, fetchAssetV1, getPluginAuthorityPairSerializer} from "@metaplex-foundation/mpl-core";
+import { getAssetV1AccountDataSerializer } from "@metaplex-foundation/mpl-core/dist/src/generated/types/assetV1AccountData";
+import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
+import {fromWeb3JsPublicKey} from "@metaplex-foundation/umi-web3js-adapters" 
 
 describe("asset", () => {
   // Configure the client to use the local cluster.
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
-  const program = anchor.workspace.AnchorMplxcoreQ425 as Program<AnchorMplxcoreQ425>;
+  const program = anchor.workspace.Asset as Program<Asset>;
   const connection = provider.connection;
-
+  fetchAssetV1
   // Accounts
   const payer = provider.wallet;
   const creator = Keypair.generate();
@@ -118,8 +121,8 @@ describe("asset", () => {
       const args = {
         name: "Test Collection",
         uri: "https://devnet.irys.xyz/yourhashhere",
-        nftName: "Test NFT",
-        nftUri: "https://gateway.irys.xyz/yourhashhere",
+        defaultNftName: "Test NFT",
+        defaultNftUri: "https://gateway.irys.xyz/yourhashhere",
       };
 
       try {
@@ -148,16 +151,16 @@ describe("asset", () => {
       const collectionAuthority = await program.account.collectionAuthority.fetch(collectionAuthorityPda);
       assert.equal(collectionAuthority.creator.toString(), creator.publicKey.toString(), "Creator should be the collection authority");
       assert.equal(collectionAuthority.collection.toString(), collection.publicKey.toString());
-      assert.equal(collectionAuthority.nftName, args.nftName);
-      assert.equal(collectionAuthority.nftUri, args.nftUri);
+      assert.equal(collectionAuthority.defaultNftName, args.defaultNftName);
+      assert.equal(collectionAuthority.defaultNftUri, args.defaultNftUri);
     });
 
     it("Non-whitelisted creator cannot create a collection", async () => {
       const args = {
         name: "Invalid Collection",
         uri: "https://example.com/invalid-uri",
-        nftName: "Invalid NFT",
-        nftUri: "https://example.com/invalid-nft-uri",
+        defaultNftName: "Invalid NFT",
+        defaultNftUri: "https://example.com/invalid-nft-uri",
       };
 
       try {
@@ -242,6 +245,11 @@ describe("asset", () => {
         .signers([creator])
         .rpc();
 
+        let umi = createUmi(connection.rpcEndpoint);
+
+        let assetv1 = fetchAssetV1(umi, fromWeb3JsPublicKey(asset.publicKey));        
+
+        assert.equal(true, (await assetv1).freezeDelegate.frozen)
     });
 
     it("Fails to freeze with unauthorized authority", async () => {
@@ -280,6 +288,11 @@ describe("asset", () => {
         .signers([creator])
         .rpc();
 
+        let umi = createUmi(connection.rpcEndpoint);
+
+        let assetv1 = fetchAssetV1(umi, fromWeb3JsPublicKey(asset.publicKey));        
+
+        assert.equal(false, (await assetv1).freezeDelegate.frozen)        
     });
 
     it("Fails to thaw with unauthorized authority", async () => {
@@ -319,6 +332,14 @@ describe("asset", () => {
         })
         .signers([creator])
         .rpc()
+
+        const assetRawAccount = (await connection.getAccountInfo(asset.publicKey));
+
+        const assetSerializer = getAssetV1AccountDataSerializer();
+
+        const assetAccount = assetSerializer.deserialize(assetRawAccount.data)[0];
+        
+        assert.equal("New NFT name", assetAccount.name);
     })
 
     it("Fails to update NFT with unauthorized authority", async ()=> {

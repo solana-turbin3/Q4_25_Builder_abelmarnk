@@ -57,8 +57,8 @@ impl<'info> MintNft<'info> {
             .owner(Some(&self.minter.to_account_info()))
             .update_authority(None)
             .system_program(&self.system_program.to_account_info())
-            .name(self.collection_authority.nft_name.clone())
-            .uri(self.collection_authority.nft_uri.clone())
+            .name(self.collection_authority.default_nft_name.clone())
+            .uri(self.collection_authority.default_nft_uri.clone())
             .plugins(vec![
                 PluginAuthorityPair {
                     plugin: Plugin::Attributes(Attributes {

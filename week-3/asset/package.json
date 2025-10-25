@@ -8,7 +8,8 @@
   "dependencies": {
     "@coral-xyz/anchor": "^0.32.1",
     "@metaplex-foundation/mpl-core": "^1.7.0",
-    "@metaplex-foundation/umi": "^1.4.1"
+    "@metaplex-foundation/umi": "^1.4.1",
+    "@metaplex-foundation/umi-bundle-defaults": "^1.4.1"
   },
   "devDependencies": {
     "@types/bn.js": "^5.1.0",

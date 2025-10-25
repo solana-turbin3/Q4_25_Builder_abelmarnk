@@ -6,7 +6,7 @@ mod error;
 
 use instructions::*;
 
-declare_id!("FCYkNZSiRHuEutSJVCjgndQPXsmYkXk2YWSh3KB1cuKY");
+declare_id!("34KWXoB4aKv5sm47N3ykZSKkd5osevgWTAQvqi8PgcHe");
 
 #[program]
 pub mod asset {
