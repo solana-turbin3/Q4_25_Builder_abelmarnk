@@ -12,6 +12,9 @@
     "convert": "tsx ./convert.ts",
     "generate-client": "tsx ./scripts/generate-client.ts"
   },
+  "bin": {
+    "convert": "dist/convert.js"
+  },
   "dependencies": {
     "@codama/nodes-from-anchor": "^1.2.9",
     "@codama/renderers-js": "^1.4.2",
@@ -21,11 +24,11 @@
     "bs58": "^6.0.0",
     "codama": "^1.3.7",
     "prompt-sync": "^4.2.0",
-    "typescript": "^5.9.3",
     "ws": "^8.18.3"
   },
   "devDependencies": {
     "@types/prompt-sync": "^4.2.3",
-    "tsx": "^4.20.6"
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
   }
 }
