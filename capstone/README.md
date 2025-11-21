@@ -1,3 +1,11 @@
+## Program status: Deployed
+## Program address: FUydjpRuVPkaWQkDSU32aKGG1qFZ4C23KiNh7b66hB79(devnet)
+## Program authority: EibqN1sJ8mRkYKvvSWjxDvPjvmnfkMQ2XsiR6jqg8uFq
+
+
+---
+
+
 # Strategy Program (CLMM Idle Liquidity manager)
 
 This project implements an automated liquidity-management strategy for Solana concentrated-liquidity AMMs. The idea is simple:
