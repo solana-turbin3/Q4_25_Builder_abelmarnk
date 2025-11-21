@@ -1,0 +1,664 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36" version="28.2.8">
+  <diagram name="Page-1" id="Cko7thUkGt4qRLKBV_ZK">
+    <mxGraphModel dx="806" dy="487" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-1" value="&lt;h3&gt;Admin&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;Initialize Program: This action creates the GlobalState PDA, which stores the protocol&#39;s core configuration, including the Admin&#39;s public key, initial fee structure, the reward rate (SOL per Credit), and establishes the SOL Vault PDA for holding rewards.&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;Admin Change Config: This action updates core protocol parameters, allowing the Admin to modify the sol_per_credit rate, adjust the base_deposit required from users, and manage the Whitelist Mint list used by the program.&lt;br&gt;&lt;br&gt;&lt;/li&gt;&lt;li&gt;Whitelist/Unwhitelist mint: Approve or disapprove a mint from being used&lt;br&gt;&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;Admin Withdraw SOL/Token: This action permits the Admin to withdraw SOL from the sol_vault or recover any extraneous, non-protocol tokens accidentally transferred to any of the program&#39;s token accounts.&lt;/li&gt;&lt;/ul&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=left;verticalAlign=top;spacingLeft=10;spacingTop=10;" parent="1" vertex="1">
+          <mxGeometry x="170" y="140" width="490" height="410" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-2" value="&lt;h3&gt;&amp;nbsp;Keeper Bot&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;Create Keeper Account: This action registers a bot by creating its unique KeeperState PDA using its wallet key, which tracks the total number of credits the bot has earned for executing transactions.&lt;/li&gt;&lt;/ul&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;ul&gt;&lt;li&gt;Bot Decrease Liquidity (Raydium → Meteora): This action executes the Out-of-Range logic: it uses a CPI to Raydium to withdraw assets, deposits the resulting tokens into the Meteora Vault via a CPI, sets the UserState to deployed, and rewards the bot with decrease_liquidity_credits.&lt;/li&gt;&lt;/ul&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;ul&gt;&lt;li&gt;Bot Increase Liquidity (Meteora → Raydium): This action executes the Back-in-Range logic: it uses a CPI to Meteora to withdraw LP tokens, re-deposits assets into a new Raydium CL position via a CPI, sets the UserState to not deployed, and rewards the bot with increase_liquidity_credits fees may also deducted during this step&lt;/li&gt;&lt;/ul&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;ul&gt;&lt;li&gt;Keeper Withdraw Rewards: This action calculates the bot&#39;s total SOL earnings, transfers the SOL from the sol_vault to the keeper&#39;s wallet, and resets the Keeper&#39;s credit balance to zero.&lt;/li&gt;&lt;/ul&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=left;verticalAlign=top;spacingLeft=10;spacingTop=10;" parent="1" vertex="1">
+          <mxGeometry x="165" y="610" width="520" height="470" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-3" value="&lt;h3&gt;&amp;nbsp;User&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;User Create Position: This action initializes a user&#39;s commitment: it creates the UserState PDA, transfers the Raydium CL Position NFT to the program&#39;s custody, and deducts the non-refundable Base Deposit SOL fee.&lt;/li&gt;&lt;/ul&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;ul&gt;&lt;li&gt;User Close Position (Final): This action terminates the position: it returns the Raydium Position NFT, any dust funds, the remaining Base Deposit SOL, and closes the UserState account, fees may also deducted during this step.&lt;/li&gt;&lt;/ul&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=left;verticalAlign=top;spacingLeft=10;spacingTop=10;" parent="1" vertex="1">
+          <mxGeometry x="160.5" y="1120" width="530" height="270" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-5" value="&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;div style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;GlobalState&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 20px; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Owner: My program&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Description:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; It stores global wide configuration.&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Seeds:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; [b&quot;global-state&quot;]&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Fields:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - state: u8 → Protocol state flags (bitmask)&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - admin: Pubkey → Admin authority address&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - sol_vault: Pubkey → SOL vault PDA&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - credits_for_decrease_liquidity: u64 → Reward credits for Decrease Liquidity&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - credits_for_increase_liquidity: u64 → Reward credits for Increase Liquidity&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - sol_per_credit: u64 → Lamports per credit exchange rate&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - base_deposit: u64 → Initial refundable deposit&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 14px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;&amp;nbsp; - bump: u8 → Bump for GlobalState PDA&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - sol_vault_bump: u8 → Bump for SOL vault PDA&lt;/font&gt;&lt;/div&gt;&lt;/blockquote&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#a20025;align=left;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
+          <mxGeometry x="135" y="1700" width="550" height="470" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-7" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;Program Accounts&lt;/font&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="180" y="1595" width="470" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-8" value="&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div&gt;&lt;div style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 20px; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;UserState&lt;/span&gt;&lt;/div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Owner: My program&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Description:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; Per-user position and rebalancing state linked to Raydium position NFT.&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Seeds:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; [b&quot;user-state&quot;, self.user_mint.as_ref()]&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Fields:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - user: Pubkey → Wallet owner of this position&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - user_mint: Pubkey → Raydium position NFT mint&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - liquidity: u128 → Amount of liquidity last pulled out of meteora&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - token_deployed:TokenDeployed&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - lp_amount: u64 → Meteora LP Token balance&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 14px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;&amp;nbsp; - tick_lower_index_in_threshold: i32 → Lower tick threshold for rebalancing&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - tick_upper_index_in_threshold: i32 → Upper tick threshold for rebalancing&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18)); font-size: 14px;&quot;&gt;&amp;nbsp; - tick_lower_index_out_threshold: i32 → Lower tick threshold for rebalancing&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - tick_upper_index_out_threshold: i32 → Upper tick threshold for rebalancing&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - tick_lower_index: i32 → Lower tick of active Raydium position&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - tick_upper_index: i32 → Upper tick of active Raydium position&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - bump: u8 → PDA bump&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - reserved: [u8;127] → Reserved space&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;&lt;/blockquote&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#a20025;align=left;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
+          <mxGeometry x="125" y="2220" width="550" height="470" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-9" value="&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div&gt;&lt;div style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 20px; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;KeeperState&lt;/span&gt;&lt;/div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Owner: My program&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Description:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; Tracks the reward credits earned by a keeper bot for performing rebalances.&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Seeds:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; [b&quot;keeper&quot;, self.keeper.as_ref()]&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Fields:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - keeper: Pubkey → Keeper bot wallet&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - credits: u64 → Total earned credits&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/blockquote&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#a20025;align=left;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
+          <mxGeometry x="125" y="2730" width="550" height="270" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-10" value="&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;text-align: center;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;Personal Position State&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center;&quot;&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Owner: Raydium Concentrated Liquidity Program&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Description:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; Represents a user&#39;s specific Raydium liquidity position,&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; linked to their Position NFT and used to track liquidity,&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; fees, and rewards.&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Seeds:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; [b&quot;position&quot;, self.nft_mint.as_ref()]&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Fields:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - bump: [u8;1] → PDA bump for this position&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - nft_mint: Pubkey → Mint of the Raydium position NFT&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - pool_id: Pubkey → Associated pool for this position&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - tick_lower_index: i32 → Lower tick bound&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - tick_upper_index: i32 → Upper tick bound&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - liquidity: u128 → Liquidity owned by this position&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - fee_growth_inside_0_last_x64: u128 → Token 0 fee growth at last update&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - fee_growth_inside_1_last_x64: u128 → Token 1 fee growth at last update&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - token_fees_owed_0: u64 → Token 0 fees claimable&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - token_fees_owed_1: u64 → Token 1 fees claimable&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - reward_infos: [PositionRewardInfo; REWARD_NUM] → Reward tracking array&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - recent_epoch: u64 → Last update epoch timestamp&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - padding: [u64;7] → Reserved for future expansion&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/blockquote&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0050ef;align=left;fontColor=#ffffff;strokeColor=#001DBC;" parent="1" vertex="1">
+          <mxGeometry x="122.5" y="3330" width="555" height="480" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-11" value="&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;text-align: center;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;Pool State&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Owner: Raydium Concentrated Liquidity Program&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Description:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; Represents the on-chain state of a Raydium liquidity pool&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; (e.g. SOL/USDC), containing configuration, liquidity,&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; and fee/reward tracking data.&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Seeds:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; [b&quot;pool&quot;, self.amm_config.as_ref(), self.token_mint_0.as_ref(), self.token_mint_1.as_ref()]&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Fields (core subset):&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - bump: [u8;1] → PDA bump for this pool&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - amm_config: Pubkey → Pool configuration account&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - token_mint_0: Pubkey → Token 0 mint&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - token_mint_1: Pubkey → Token 1 mint&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - token_vault_0: Pubkey → Token 0 vault (Raydium owned)&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - token_vault_1: Pubkey → Token 1 vault (Raydium owned)&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - liquidity: u128 → Total active liquidity&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - sqrt_price_x64: u128 → Current price in Q64.64 format&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - tick_current: i32 → Current pool tick index&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - fee_growth_global_0_x64: u128 → Total Token 0 fee growth&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - fee_growth_global_1_x64: u128 → Total Token 1 fee growth&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - status: u8 → Bitmask of pool feature flags&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - reward_infos: [RewardInfo; REWARD_NUM] → Pool reward configurations&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/blockquote&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0050ef;align=left;fontColor=#ffffff;strokeColor=#001DBC;" parent="1" vertex="1">
+          <mxGeometry x="120" y="3830" width="555" height="550" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-12" value="&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;text-align: center;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;Tick Array State (Lower / Upper)&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center;&quot;&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Owner: Raydium Concentrated Liquidity Program&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Description:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; Stores the initialized state of tick indices defining&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; a liquidity position’s range boundaries.&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/blockquote&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0050ef;align=left;fontColor=#ffffff;strokeColor=#001DBC;" parent="1" vertex="1">
+          <mxGeometry x="190" y="4470" width="405" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-13" value="&lt;b&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Other raydium accounts&lt;/font&gt;&lt;br&gt;&lt;/b&gt;These are accounts that the program does not interact with directly so the specific fields and other details are not relevant" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d0cee2;strokeColor=#56517e;" parent="1" vertex="1">
+          <mxGeometry x="660" y="4490" width="180" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-14" value="&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;text-align: center;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;Protocol Position&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Owner: Raydium Concentrated Liquidity Program&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Description:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; Legacy account included for backward compatibility.&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; Used for protocol-level or historical fee tracking.&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/blockquote&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0050ef;align=left;fontColor=#ffffff;strokeColor=#001DBC;" parent="1" vertex="1">
+          <mxGeometry x="190" y="4720" width="405" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-15" value="&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;Tick Array Bitmap Extension&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Owner: Raydium Concentrated Liquidity AMM Program&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Description:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; Auxiliary account extending the pool’s tick bitmap,&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; allowing additional tick arrays beyond the fixed&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; primary range to be tracked efficiently.&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/blockquote&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0050ef;align=left;fontColor=#ffffff;strokeColor=#001DBC;" parent="1" vertex="1">
+          <mxGeometry x="195" y="4950" width="405" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-16" value="&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;text-align: center;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;Vault Account&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Owner: Meteora Vault Program&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Description:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; The primary account representing a specific yield-bearing vault in the&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; Meteora protocol. It stores the vault’s configuration, references to&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; strategy accounts, fee and token vault addresses, and tracks deposits,&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; LP issuance, and profit locking logic.&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/blockquote&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0a30a;align=left;fontColor=#000000;strokeColor=#BD7000;" parent="1" vertex="1">
+          <mxGeometry x="70" y="5160" width="565" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-18" value="&lt;b&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Meteora accounts&lt;/font&gt;&lt;br&gt;&lt;/b&gt;The program does not interact with any metoera specific program accounts directly" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fa6800;fontColor=#000000;strokeColor=#C73500;" parent="1" vertex="1">
+          <mxGeometry x="650" y="5030" width="180" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-19" value="&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;div&gt;&lt;div style=&quot;text-align: center;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;GlobalState Token Account&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Authority: GlobalState PDA&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Mint: Whitelisted Pool Mints&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Description:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; Internal token vaults controlled by your program’s GlobalState PDA.&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; Used as intermediate sources or destinations for tokens during Raydium&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; and Meteora CPI calls.&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;&lt;/blockquote&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e51400;align=left;fontColor=#ffffff;strokeColor=#B20000;" parent="1" vertex="1">
+          <mxGeometry x="75" y="5540" width="565" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-20" value="&lt;blockquote style=&quot;margin:0 0 0 40px;border:none;padding:0px;&quot;&gt;&lt;div&gt;&lt;div style=&quot;text-align:center;&quot;&gt;&lt;font style=&quot;font-size:20px;&quot;&gt;GlobalState LP Token Account&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:center;&quot;&gt;&lt;font style=&quot;font-size:20px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Authority: GlobalState PDA&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Mint: Meteora LP Mint&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Description:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;&amp;nbsp;Holds LP tokens received from Meteora vault deposits. Controlled by&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;&amp;nbsp;the GlobalState PDA for programmatic rebalancing and reward tracking.&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;&lt;/blockquote&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e51400;align=left;fontColor=#ffffff;strokeColor=#B20000;" parent="1" vertex="1">
+          <mxGeometry x="75" y="5810" width="565" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-21" value="&lt;blockquote style=&quot;margin:0 0 0 40px;border:none;padding:0px;&quot;&gt;&lt;div&gt;&lt;div style=&quot;text-align:center;&quot;&gt;&lt;font style=&quot;font-size:20px;&quot;&gt;Program Fee Token Accounts&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:center;&quot;&gt;&lt;font style=&quot;font-size:20px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Authority: GlobalState PDA&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Mint:&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;font-size: 14px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Whitelisted Pool Mints&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Description:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;&amp;nbsp;Dedicated vaults that collect protocol fees across whitelisted mints,&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;&amp;nbsp;controlled by the GlobalState PDA.&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;&lt;/blockquote&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e51400;align=left;fontColor=#ffffff;strokeColor=#B20000;" parent="1" vertex="1">
+          <mxGeometry x="77.5" y="6060" width="565" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-22" value="&lt;blockquote style=&quot;margin:0 0 0 40px;border:none;padding:0px;&quot;&gt;&lt;div&gt;&lt;div style=&quot;text-align:center;&quot;&gt;&lt;font style=&quot;font-size:20px;&quot;&gt;User Token Account&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:center;&quot;&gt;&lt;font style=&quot;font-size:20px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Authority: User Wallet (Signer)&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Mint: Token&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;font-size: 14px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Whitelisted Pool Mints&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Description:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;&amp;nbsp;User-owned ATAs that act as the source or destination of funds during&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;&amp;nbsp;deposits, withdrawals, and Raydium liquidity changes.&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;&lt;/blockquote&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e51400;align=left;fontColor=#ffffff;strokeColor=#B20000;" parent="1" vertex="1">
+          <mxGeometry x="77.5" y="6310" width="565" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-23" value="&lt;blockquote style=&quot;margin:0 0 0 40px;border:none;padding:0px;&quot;&gt;&lt;div&gt;&lt;div style=&quot;text-align:center;&quot;&gt;&lt;font style=&quot;font-size:20px;&quot;&gt;Raydium Token Vault&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:center;&quot;&gt;&lt;font style=&quot;font-size:20px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Authority: Raydium CLMM Program&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Mint:&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;font-size: 14px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Whitelisted Pool Mints&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Description:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;&amp;nbsp;Raydium’s internal pool token vaults for the CLMM pool. Used by&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;&amp;nbsp;Raydium during liquidity adjustments and swaps.&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;&lt;/blockquote&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e51400;align=left;fontColor=#ffffff;strokeColor=#B20000;" parent="1" vertex="1">
+          <mxGeometry x="75" y="6640" width="565" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-24" value="&lt;blockquote style=&quot;margin:0 0 0 40px;border:none;padding:0px;&quot;&gt;&lt;div&gt;&lt;div style=&quot;text-align:center;&quot;&gt;&lt;font style=&quot;font-size:20px;&quot;&gt;Token 0 Mint&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:center;&quot;&gt;&lt;font style=&quot;font-size:20px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Authority: Token Mint Authority&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Description:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;&amp;nbsp;Defines the first asset in the pair (e.g., WSOL). Used by both&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;&amp;nbsp;Raydium and Meteora vault interactions.&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;&lt;/blockquote&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e51400;align=left;fontColor=#ffffff;strokeColor=#B20000;" parent="1" vertex="1">
+          <mxGeometry x="75" y="6910" width="565" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-25" value="&lt;blockquote style=&quot;margin:0 0 0 40px;border:none;padding:0px;&quot;&gt;&lt;div&gt;&lt;div style=&quot;text-align:center;&quot;&gt;&lt;font style=&quot;font-size:20px;&quot;&gt;Token 1 Mint&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:center;&quot;&gt;&lt;font style=&quot;font-size:20px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Authority: Token Mint Authority&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Description:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;&amp;nbsp;Defines the second asset in the pair (e.g., USDC). Used by both&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;&amp;nbsp;Raydium and Meteora vault interactions.&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;&lt;/blockquote&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e51400;align=left;fontColor=#ffffff;strokeColor=#B20000;" parent="1" vertex="1">
+          <mxGeometry x="82.5" y="7160" width="565" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-26" value="&lt;blockquote style=&quot;margin:0 0 0 40px;border:none;padding:0px;&quot;&gt;&lt;div&gt;&lt;div style=&quot;text-align:center;&quot;&gt;&lt;font style=&quot;font-size:20px;&quot;&gt;Meteora LP Mint&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:center;&quot;&gt;&lt;font style=&quot;font-size:20px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Authority: Meteora Vault Program&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Description:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;&amp;nbsp;Defines the fungible LP token issued by Meteora vaults to represent&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;&amp;nbsp;user shares in the vault’s underlying liquidity.&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;&lt;/blockquote&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e51400;align=left;fontColor=#ffffff;strokeColor=#B20000;" parent="1" vertex="1">
+          <mxGeometry x="85" y="7400" width="565" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-27" value="&lt;blockquote style=&quot;margin:0 0 0 40px;border:none;padding:0px;&quot;&gt;&lt;div&gt;&lt;div style=&quot;text-align:center;&quot;&gt;&lt;font style=&quot;font-size:20px;&quot;&gt;Raydium Position NFT Mint&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align:center;&quot;&gt;&lt;font style=&quot;font-size:20px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Authority: Raydium CLMM Program&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;Description:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;&amp;nbsp;Defines the non-fungible token representing ownership of a unique&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size:14px;&quot;&gt;&amp;nbsp;Raydium CLMM liquidity position.&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;&lt;/blockquote&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e51400;align=left;fontColor=#ffffff;strokeColor=#B20000;" parent="1" vertex="1">
+          <mxGeometry x="82.5" y="7710" width="565" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-63" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Create Global State Account&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Executing Program: My Program (via CPI)&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: System Program&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007acc;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="215" y="8040" width="330" height="91" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-64" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="zY1X46vYwNWNSBjsjfOt-65" target="zY1X46vYwNWNSBjsjfOt-66" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-65" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 15px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Create Sol vault Account&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Executing Program: My Program (via CPI)&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: System Program&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007acc;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="217.5" y="8210" width="310" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-66" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 15px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Write Data to global_state&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Executing Program: Your Program&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: N/A&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="215" y="8400" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-67" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jettySize=auto;orthogonalLoop=1;strokeColor=#000000;" parent="1" source="zY1X46vYwNWNSBjsjfOt-65" target="zY1X46vYwNWNSBjsjfOt-66" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-68" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jettySize=auto;orthogonalLoop=1;strokeColor=#000000;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-66" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="379.9999999999998" y="8590" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-69" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.481;exitY=1.004;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-63" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="380" y="8150" as="sourcePoint" />
+            <mxPoint x="375" y="8220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-71" value="&lt;font style=&quot;font-size: 15px; color: light-dark(rgb(0, 0, 0), rgb(0, 0, 0));&quot;&gt;Initialize global config&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;" parent="1" vertex="1">
+          <mxGeometry x="40.5" y="8160" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-76" value="&lt;div&gt;Configuration Change&lt;/div&gt;&lt;div&gt;Executing Program: My Program&lt;/div&gt;&lt;div&gt;CPI Target: N/A&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007acc;align=center;fontColor=#ffffff;strokeColor=#005f9e;fontSize=15;" parent="1" vertex="1">
+          <mxGeometry x="92.5" y="8860" width="300" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-80" value="&lt;div&gt;Conditional: Check if need to resize&lt;/div&gt;&lt;div&gt;Executing Program: My Program&lt;/div&gt;&lt;div&gt;CPI Target: N/A&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#007acc;strokeColor=#005f9e;fontColor=#ffffff;align=center;fontSize=15;" parent="1" vertex="1">
+          <mxGeometry x="40" y="9000" width="410" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-81" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-80" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="245.00000000000023" y="9230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-85" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-76" target="zY1X46vYwNWNSBjsjfOt-80" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="325" y="8910" as="sourcePoint" />
+            <mxPoint x="375" y="8860" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-86" value="&lt;div&gt;Resize&lt;/div&gt;&lt;div&gt;Executing Program: My Program (via CPI)&lt;/div&gt;&lt;div&gt;CPI Target: System program&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007acc;align=center;fontColor=#ffffff;strokeColor=#005f9e;fontSize=15;" parent="1" vertex="1">
+          <mxGeometry x="530" y="9045" width="300" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-87" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-80" target="zY1X46vYwNWNSBjsjfOt-86" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="460" y="9030" as="sourcePoint" />
+            <mxPoint x="510" y="8980" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-88" value="Yes&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="425" y="9030" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-89" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-86" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="690" y="9130" as="sourcePoint" />
+            <mxPoint x="245.00000000000023" y="9230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-90" value="No" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="280" y="9170" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-94" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 15px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Transfer SOL&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Executing Program: My Program (via CPI)&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: System program&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="257.25" y="9510" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-96" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jettySize=auto;orthogonalLoop=1;strokeColor=#000000;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-94" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="422.25" y="9700" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-99" value="&lt;font style=&quot;font-size: 15px; color: light-dark(rgb(0, 0, 0), rgb(0, 0, 0));&quot;&gt;withdraw SOL from vault&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;" parent="1" vertex="1">
+          <mxGeometry x="77.5" y="9450" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-106" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Create account&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Executing Program: My Program (via CPI)&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: System program&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007acc;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="258.25" y="10390" width="330" height="91" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-107" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 15px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Initialize account data&lt;br&gt;Executing Program: My Program&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: N/A&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="257.75" y="10610" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-108" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jettySize=auto;orthogonalLoop=1;strokeColor=#000000;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-107" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="422.75" y="10800" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-109" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.481;exitY=1.004;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-106" target="zY1X46vYwNWNSBjsjfOt-107" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="422.75" y="10360" as="sourcePoint" />
+            <mxPoint x="417.75" y="10430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-111" value="&lt;font style=&quot;font-size: 15px; color: light-dark(rgb(0, 0, 0), rgb(0, 0, 0));&quot;&gt;create keeper account&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;" parent="1" vertex="1">
+          <mxGeometry x="82.5" y="10500" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-175" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 15px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Transfer token&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Executing Program: My Program (via CPI)&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: token program&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="277.5" y="9990" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-176" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jettySize=auto;orthogonalLoop=1;strokeColor=#000000;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-175" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="442.4999999999998" y="10180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-178" value="&lt;font style=&quot;font-size: 15px; color: light-dark(rgb(0, 0, 0), rgb(0, 0, 0));&quot;&gt;withdraw token from vault&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;" parent="1" vertex="1">
+          <mxGeometry x="77.5" y="10070" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-179" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 15px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Decrease liquidity&lt;br&gt;Executing Program: My Program (via CPI)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: raydium program&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007acc;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="262.75" y="11040" width="330" height="91" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-180" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 15px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Calculate deposit amounts&lt;br&gt;Executing Program: My Program&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: N/A&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="265.5" y="11180" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-181" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jettySize=auto;orthogonalLoop=1;strokeColor=#000000;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-180" target="zY1X46vYwNWNSBjsjfOt-184" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="422.75" y="11400.000000000002" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-182" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.481;exitY=1.004;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-179" target="zY1X46vYwNWNSBjsjfOt-180" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="422.75" y="10960" as="sourcePoint" />
+            <mxPoint x="417.75" y="11030" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-183" value="&lt;font style=&quot;font-size: 15px; color: light-dark(rgb(0, 0, 0), rgb(0, 0, 0));&quot;&gt;Withdraw liquidty&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;" parent="1" vertex="1">
+          <mxGeometry x="82.5" y="11100" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-184" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Depost token&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Executing Program: My Program (via CPI)&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: Meteora program&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007acc;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="262.75" y="11340" width="330" height="91" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-185" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 15px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Finalize account state&lt;br&gt;Executing Program: My Program&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: N/A&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="262.75" y="11490" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-186" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jettySize=auto;orthogonalLoop=1;strokeColor=#000000;" parent="1" source="zY1X46vYwNWNSBjsjfOt-185" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="420" y="11650" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-187" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.481;exitY=1.004;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-184" target="zY1X46vYwNWNSBjsjfOt-185" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="422.25" y="11370" as="sourcePoint" />
+            <mxPoint x="417.25" y="11440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-189" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 15px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Withdraw token&lt;br&gt;Executing Program: My Program (via CPI)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: Meteora program&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007acc;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="284" y="11770" width="330" height="91" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-190" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 15px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Calculate deposit amounts&lt;br&gt;Executing Program: My Program&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: N/A&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="286.25" y="11930" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-191" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jettySize=auto;orthogonalLoop=1;strokeColor=#000000;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-190" target="zY1X46vYwNWNSBjsjfOt-194" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="446.25" y="12300.000000000002" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-192" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.481;exitY=1.004;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-189" target="zY1X46vYwNWNSBjsjfOt-190" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="446.25" y="11790" as="sourcePoint" />
+            <mxPoint x="441.25" y="11860" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-193" value="&lt;font style=&quot;font-size: 15px; color: light-dark(rgb(0, 0, 0), rgb(0, 0, 0));&quot;&gt;Deposit liquidty&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;" parent="1" vertex="1">
+          <mxGeometry x="106" y="12000" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-194" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Increase liquidity&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Executing Program: My Program (via CPI)&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: Raydium program&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007acc;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="284" y="12180" width="330" height="91" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-195" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 15px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Finalize account state&lt;br&gt;Executing Program: My Program&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: N/A&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="284" y="12340" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-196" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jettySize=auto;orthogonalLoop=1;strokeColor=#000000;" parent="1" source="zY1X46vYwNWNSBjsjfOt-195" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="443.5" y="12550" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-197" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.481;exitY=1.004;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-194" target="zY1X46vYwNWNSBjsjfOt-195" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="445.75" y="12270" as="sourcePoint" />
+            <mxPoint x="440.75" y="12340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-199" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;&lt;b&gt;Users &amp;amp; Summary Of Actions&lt;/b&gt;&lt;/font&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="240.5" y="40" width="340" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-200" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 15px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Calculate transfer amounts&lt;br&gt;Executing Program: My Program&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: N/A&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="250" y="12680" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-201" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jettySize=auto;orthogonalLoop=1;strokeColor=#000000;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-200" target="zY1X46vYwNWNSBjsjfOt-203" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="410" y="12980.000000000002" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-202" value="&lt;font style=&quot;font-size: 15px; color: light-dark(rgb(0, 0, 0), rgb(0, 0, 0));&quot;&gt;withdraw rewards&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;" parent="1" vertex="1">
+          <mxGeometry x="74.75" y="12780" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-203" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Transfer SOL&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Executing Program: My Program (via CPI)&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: System program&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007acc;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="247.75" y="12860" width="330" height="91" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-204" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 15px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Reset keeper credits&lt;br&gt;Executing Program: My Program&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: N/A&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="247.75" y="13020" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-205" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jettySize=auto;orthogonalLoop=1;strokeColor=#000000;" parent="1" source="zY1X46vYwNWNSBjsjfOt-204" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="407.25" y="13230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-206" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.481;exitY=1.004;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-203" target="zY1X46vYwNWNSBjsjfOt-204" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="409.5" y="12950" as="sourcePoint" />
+            <mxPoint x="404.5" y="13020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-208" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 15px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Withdraw leftover tokens&lt;br&gt;Executing Program: My Program (via cpi)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: Token program&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="231.5" y="13570" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-209" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jettySize=auto;orthogonalLoop=1;strokeColor=#000000;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-208" target="zY1X46vYwNWNSBjsjfOt-212" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="397" y="13760" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="392" y="13720" />
+              <mxPoint x="397" y="13720" />
+              <mxPoint x="397" y="13770" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-210" value="&lt;font style=&quot;font-size: 15px; color: light-dark(rgb(0, 0, 0), rgb(0, 0, 0));&quot;&gt;Close position&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;" parent="1" vertex="1">
+          <mxGeometry x="58.5" y="13530" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-212" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 15px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Return User NFT&lt;br&gt;Executing Program: My Program (via CPI)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: Token program&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="231.5" y="13770" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-213" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jettySize=auto;orthogonalLoop=1;strokeColor=#000000;" parent="1" source="zY1X46vYwNWNSBjsjfOt-212" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="391" y="13980" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-216" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 15px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Create authority&lt;br&gt;Executing Program: My Program (via CPI)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: System program&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007acc;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="231.5" y="14340" width="330" height="91" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-217" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 15px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Create authority ata&lt;br&gt;Executing Program: My Program (via CPI)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: Associated token program&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="233.75" y="14500" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-218" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jettySize=auto;orthogonalLoop=1;strokeColor=#000000;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-217" target="zY1X46vYwNWNSBjsjfOt-220" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="393.75" y="14800.000000000002" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-219" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.481;exitY=1.004;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-216" target="zY1X46vYwNWNSBjsjfOt-217" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="393.75" y="14360" as="sourcePoint" />
+            <mxPoint x="388.75" y="14430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-220" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 15px;&quot;&gt;Initialze user authority&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Executing Program: My Program&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: N/A&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007acc;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="231.5" y="14680" width="330" height="91" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-221" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 15px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Transfer NFT&lt;br&gt;Executing Program: My Program (via CPI)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: Token program&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="231.5" y="14840" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-222" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jettySize=auto;orthogonalLoop=1;strokeColor=#000000;" parent="1" source="zY1X46vYwNWNSBjsjfOt-221" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="391" y="15050" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-223" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.481;exitY=1.004;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-220" target="zY1X46vYwNWNSBjsjfOt-221" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="393.25" y="14770" as="sourcePoint" />
+            <mxPoint x="388.25" y="14840" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-224" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 15px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Transfer Base deposit&lt;br&gt;Executing Program: My Program (via CPI)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: System program program&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="232.5" y="15050" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-227" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jettySize=auto;orthogonalLoop=1;strokeColor=#000000;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-224" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="392.4999999999998" y="15230" as="targetPoint" />
+            <mxPoint x="541" y="15200" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-228" value="&lt;font style=&quot;font-size: 15px; color: light-dark(rgb(0, 0, 0), rgb(0, 0, 0));&quot;&gt;Open position&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;" parent="1" vertex="1">
+          <mxGeometry x="45" y="14390" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-229" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 15px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Close user state&lt;br&gt;Executing Program: My Program&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: N/A&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="233.75" y="13980" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-230" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jettySize=auto;orthogonalLoop=1;strokeColor=#000000;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="386.21" y="14199.92" as="targetPoint" />
+            <mxPoint x="387.21" y="14099.92" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="387.21" y="14089.92" />
+              <mxPoint x="386.21" y="14089.92" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-231" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 15px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Withdraw SOL&lt;br&gt;Executing Program: My Program&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: N/A&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007acc;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="78.25" y="15530" width="330" height="91" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-233" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jettySize=auto;orthogonalLoop=1;strokeColor=#000000;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="237" y="15690" as="targetPoint" />
+            <mxPoint x="234.34615384615392" y="15620" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-242" value="&lt;font style=&quot;font-size: 15px; color: light-dark(rgb(0, 0, 0), rgb(0, 0, 0));&quot;&gt;Unwhitelist mint&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;" parent="1" vertex="1">
+          <mxGeometry x="45" y="15410" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-251" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Create account&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Executing Program: My Program (via CPI)&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: System program&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007acc;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="190.5" y="16320" width="330" height="91" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-252" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 15px; background-color: transparent; color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;Set the mint&lt;br&gt;Executing Program: My Program&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;CPI Target: N/A&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;align=center;fontColor=#ffffff;strokeColor=#005f9e;" parent="1" vertex="1">
+          <mxGeometry x="190" y="16540" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-253" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jettySize=auto;orthogonalLoop=1;strokeColor=#000000;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-252" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="355.25" y="16730" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-254" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.481;exitY=1.004;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-251" target="zY1X46vYwNWNSBjsjfOt-252" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="355" y="16290" as="sourcePoint" />
+            <mxPoint x="350" y="16360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-255" value="&lt;font color=&quot;#000000&quot;&gt;&lt;span style=&quot;font-size: 15px;&quot;&gt;Whitelist mint&lt;/span&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#007ACC;" parent="1" vertex="1">
+          <mxGeometry x="48" y="16390" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-257" value="&lt;b&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Token accounts&lt;/font&gt;&lt;br&gt;&lt;/b&gt;These are token accounts used across the different programs that are interacted with, the program which it is used by is specified" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fad9d5;strokeColor=#ae4132;" parent="1" vertex="1">
+          <mxGeometry x="660" y="5710" width="180" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-258" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;Instructions/Actions&lt;/font&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="215" y="7950" width="272.5" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-259" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;Relevant programs&lt;/font&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="231.5" y="16810" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-260" value="&lt;font style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;Raydium program&lt;/span&gt;&lt;br&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;- For giving access to the tokens owned by the user through the increase and decrease liquidity instructions&amp;nbsp;&lt;/font&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=light-dark(#6DB2FF,#6DB2FF);" parent="1" vertex="1">
+          <mxGeometry x="172.5" y="16920" width="379" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-261" value="&lt;font style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;Meteora program&lt;/span&gt;&lt;br&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;- For providing a means to earn additional yield on the user&#39;s idle liquidity&lt;/font&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=light-dark(#9A5800,#9A5800);fillColor=light-dark(#9A5800,#9A5800);" parent="1" vertex="1">
+          <mxGeometry x="173.5" y="17170" width="386.5" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-262" value="&lt;font style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;System program&lt;/span&gt;&lt;br&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;- For creating accounts and making lamport transfer&lt;/font&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;gradientColor=#97d077;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="173.5" y="17390" width="386.5" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-263" value="&lt;font style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;Token/Token 2022 program&lt;/span&gt;&lt;br&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;- For making token transfers&amp;nbsp;&lt;/font&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=light-dark(#FF9281,#FF9281);" parent="1" vertex="1">
+          <mxGeometry x="173.5" y="17620" width="386.5" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-264" value="&lt;font style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;Associated token program&lt;/span&gt;&lt;br&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;- For creating associated token accounts&lt;/font&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcd28;gradientColor=#ffa500;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="174.25" y="17830" width="386.5" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-265" value="&lt;b&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Raydium accounts&lt;/font&gt;&lt;br&gt;&lt;/b&gt;These are accounts that the program interacts with directlty reading relevant data from them" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b1ddf0;strokeColor=#10739e;" parent="1" vertex="1">
+          <mxGeometry x="685" y="3420" width="159.5" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-266" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;Relevant offchain flows&lt;/font&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="229" y="18080" width="287" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-267" value="&lt;b&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Offchain flows&lt;br&gt;&lt;/font&gt;&lt;/b&gt;These are flows that eventually boil down to action/instructions performed on chain, but requiring some off chain coordination" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;gradientColor=#ea6b66;strokeColor=#b85450;" parent="1" vertex="1">
+          <mxGeometry x="636.5" y="18140" width="184" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-268" value="User create position" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+          <mxGeometry x="15" y="18185" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-272" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="zY1X46vYwNWNSBjsjfOt-269" target="zY1X46vYwNWNSBjsjfOt-270" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-269" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;User goes to interface&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="284" y="18200" width="197" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-276" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="zY1X46vYwNWNSBjsjfOt-270" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="386.5294117647061" y="18720" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-270" value="&lt;span style=&quot;font-size: 14px;&quot;&gt;User connects wallet&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="284" y="18410" width="197" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-281" value="&lt;span style=&quot;font-size: 14px;&quot;&gt;The server makes it&#39;s calculations which involves an estimate of how much they would earn for different time periods as well as the optimal threshold for removal from the lp pool&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="287.5" y="19240" width="197" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-299" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="zY1X46vYwNWNSBjsjfOt-282" target="zY1X46vYwNWNSBjsjfOt-281" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-282" value="&lt;span style=&quot;font-size: 14px;&quot;&gt;The server checks if the mints used&lt;br&gt;&amp;nbsp;in the pair have been whitelisted&lt;/span&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;fillColor=light-dark(#DAE8FC,#1D293B);strokeColor=light-dark(#000000,#5C79A3);" parent="1" vertex="1">
+          <mxGeometry x="244" y="18990" width="291" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-287" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="zY1X46vYwNWNSBjsjfOt-283" target="zY1X46vYwNWNSBjsjfOt-286" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-283" value="&lt;span style=&quot;font-size: 14px;&quot;&gt;User selects lp position that they &lt;br&gt;would like to delegate&lt;/span&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;fillColor=light-dark(#DAE8FC,#1D293B);strokeColor=light-dark(#000000,#5C79A3);" parent="1" vertex="1">
+          <mxGeometry x="240.5" y="18720" width="291" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-284" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-283" target="zY1X46vYwNWNSBjsjfOt-282" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="410" y="18960" as="sourcePoint" />
+            <mxPoint x="460" y="18910" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-285" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;fillColor=light-dark(#DAE8FC,#1D293B);strokeColor=light-dark(#000000,#5C79A3);" parent="1" vertex="1">
+          <mxGeometry x="685" y="18920" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-286" value="" style="shape=waypoint;sketch=0;size=6;pointerEvents=1;points=[];fillColor=light-dark(#DAE8FC,#1D293B);resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=light-dark(#000000,#5C79A3);strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="670" y="18930" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-290" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-282" target="zY1X46vYwNWNSBjsjfOt-283" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="410" y="19050" as="sourcePoint" />
+            <mxPoint x="460" y="19000" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-291" value="Position selected&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="301.5" y="18950" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-292" value="Cancels/Disconnects wallet" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="625" y="18860" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-293" value="Not whitelisted" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="450" y="18935" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-294" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-281" target="zY1X46vYwNWNSBjsjfOt-303" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="410" y="19420" as="sourcePoint" />
+            <mxPoint x="340" y="19410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-297" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;fillColor=light-dark(#DAE8FC,#1D293B);strokeColor=light-dark(#000000,#5C79A3);" parent="1" vertex="1">
+          <mxGeometry x="330" y="19670" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-300" value="Bot drecrease liquidity" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+          <mxGeometry x="30.5" y="19800" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-310" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="zY1X46vYwNWNSBjsjfOt-301" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="380.52941176470586" y="20020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-301" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;Bot monitors onchain activity&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="284" y="19820" width="197" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-302" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;fillColor=light-dark(#DAE8FC,#1D293B);strokeColor=light-dark(#000000,#5C79A3);" parent="1" vertex="1">
+          <mxGeometry x="675" y="19485" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-304" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="zY1X46vYwNWNSBjsjfOt-303" target="zY1X46vYwNWNSBjsjfOt-297" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-306" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="zY1X46vYwNWNSBjsjfOt-303" target="zY1X46vYwNWNSBjsjfOt-305" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-303" value="&lt;span style=&quot;font-size: 14px;&quot;&gt;The user decides whether to &lt;br&gt;delegate and call the instruction based on the given information&lt;/span&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;fillColor=light-dark(#DAE8FC,#1D293B);strokeColor=light-dark(#000000,#5C79A3);" parent="1" vertex="1">
+          <mxGeometry x="257.25" y="19420" width="249.5" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-305" value="" style="shape=waypoint;sketch=0;size=6;pointerEvents=1;points=[];fillColor=light-dark(#DAE8FC,#1D293B);resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=light-dark(#000000,#5C79A3);strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="660.5" y="19505" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-307" value="Cancels/Disconnects wallet" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="525" y="19470" width="115" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-308" value="Delegates" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="277.5" y="19620" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-315" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="zY1X46vYwNWNSBjsjfOt-311" target="zY1X46vYwNWNSBjsjfOt-314" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-311" value="&lt;span style=&quot;font-size: 14px;&quot;&gt;Check If the user&#39;s position is not &lt;br&gt;deployed and is out of the previously calculated thresholds&lt;/span&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;fillColor=light-dark(#DAE8FC,#1D293B);strokeColor=light-dark(#000000,#5C79A3);" parent="1" vertex="1">
+          <mxGeometry x="234.5" y="20020" width="291" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-312" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-311" target="zY1X46vYwNWNSBjsjfOt-301" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="480" y="20070" as="sourcePoint" />
+            <mxPoint x="530" y="20020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-313" value="Within thresholds" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="517.75" y="19940" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-349" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="zY1X46vYwNWNSBjsjfOt-314" target="zY1X46vYwNWNSBjsjfOt-348" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-314" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;Call the bot decrease liquidity instruction&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="281.5" y="20320" width="197" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-319" value="Out of thresholds" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="437.5" y="20240" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-320" value="Bot increase liquidity" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+          <mxGeometry x="45" y="20980" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-321" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="zY1X46vYwNWNSBjsjfOt-322" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="395.02941176470586" y="21170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-322" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;Bot monitors onchain activity&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="298.5" y="20970" width="197" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-323" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="zY1X46vYwNWNSBjsjfOt-324" target="zY1X46vYwNWNSBjsjfOt-327" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-324" value="&lt;span style=&quot;font-size: 14px;&quot;&gt;Check If the user&#39;s position is&lt;br&gt;deployed and is within the previously calculated thresholds&lt;/span&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;fillColor=light-dark(#DAE8FC,#1D293B);strokeColor=light-dark(#000000,#5C79A3);" parent="1" vertex="1">
+          <mxGeometry x="249" y="21170" width="291" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-325" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-324" target="zY1X46vYwNWNSBjsjfOt-322" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="494.5" y="21220" as="sourcePoint" />
+            <mxPoint x="544.5" y="21170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-326" value="Out of thresholds" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="532.25" y="21090" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-345" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="zY1X46vYwNWNSBjsjfOt-327" target="zY1X46vYwNWNSBjsjfOt-322" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="290" y="21030" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="90" y="21535" />
+              <mxPoint x="90" y="21080" />
+              <mxPoint x="299" y="21080" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-327" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;Call the bot increase liquidity instruction&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="296" y="21470" width="197" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-330" value="Within thresholds" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="452" y="21390" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-331" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;fillColor=light-dark(#007ACC,#3EA7ED);" parent="1" vertex="1">
+          <mxGeometry x="330.5" y="8590" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-332" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;fillColor=light-dark(#007ACC,#3EA7ED);" parent="1" vertex="1">
+          <mxGeometry x="198.5" y="9230" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-334" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;fillColor=light-dark(#007ACC,#3EA7ED);" parent="1" vertex="1">
+          <mxGeometry x="375.5" y="9700" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-335" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;fillColor=light-dark(#007ACC,#3EA7ED);" parent="1" vertex="1">
+          <mxGeometry x="396.25" y="10180" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-336" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;fillColor=light-dark(#007ACC,#3EA7ED);" parent="1" vertex="1">
+          <mxGeometry x="378.5" y="10800" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-337" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;fillColor=light-dark(#007ACC,#3EA7ED);" parent="1" vertex="1">
+          <mxGeometry x="367.25" y="11650" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-338" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;fillColor=light-dark(#007ACC,#3EA7ED);" parent="1" vertex="1">
+          <mxGeometry x="397.5" y="12550" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-339" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;fillColor=light-dark(#007ACC,#3EA7ED);" parent="1" vertex="1">
+          <mxGeometry x="360" y="13230" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-340" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;fillColor=light-dark(#007ACC,#3EA7ED);" parent="1" vertex="1">
+          <mxGeometry x="337.5" y="14200" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-341" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;fillColor=light-dark(#007ACC,#3EA7ED);" parent="1" vertex="1">
+          <mxGeometry x="344.5" y="15230" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-342" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;fillColor=light-dark(#007ACC,#3EA7ED);" parent="1" vertex="1">
+          <mxGeometry x="190" y="15690" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-343" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;fillColor=light-dark(#007ACC,#3EA7ED);" parent="1" vertex="1">
+          <mxGeometry x="308.25" y="16730" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-344" value="" style="shape=waypoint;sketch=0;size=6;pointerEvents=1;points=[];fillColor=#dae8fc;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#6c8ebf;rounded=1;" parent="1" vertex="1">
+          <mxGeometry x="100" y="21070" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-352" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="zY1X46vYwNWNSBjsjfOt-348" target="zY1X46vYwNWNSBjsjfOt-351" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-348" value="" style="shape=waypoint;sketch=0;size=6;pointerEvents=1;points=[];fillColor=#dae8fc;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#6c8ebf;rounded=1;" parent="1" vertex="1">
+          <mxGeometry x="62.5" y="19910" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="zY1X46vYwNWNSBjsjfOt-351" value="" style="shape=waypoint;sketch=0;size=6;pointerEvents=1;points=[];fillColor=#dae8fc;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;strokeColor=#6c8ebf;rounded=1;" parent="1" vertex="1">
+          <mxGeometry x="270.5" y="19870" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="r7YzQcR-6CiCCWh4YwVy-1" value="&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;div&gt;&lt;div style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 20px; background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;WhitelistState&lt;/span&gt;&lt;/div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Owner: My program&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Description:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; Stores a whitelisted mint&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Seeds:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; [b&quot;whitelist-state&quot;, self.mint.as_ref()]&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Fields:&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - keeper: Pubkey → Keeper bot wallet&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; - credits: u64 → Total earned credits&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/blockquote&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#a20025;align=left;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="125" y="3020" width="550" height="270" as="geometry" />
+        </mxCell>
+        <mxCell id="r7YzQcR-6CiCCWh4YwVy-3" value="&lt;span&gt;&lt;font style=&quot;font-size: 14px; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Token deployed(Enum)&amp;nbsp;&lt;br&gt;&lt;/font&gt;Token0&lt;br&gt;&lt;br&gt;Token1&lt;br&gt;&lt;br&gt;NotDeployed&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#a20025;align=center;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="690.5" y="2320" width="149.5" height="140" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
