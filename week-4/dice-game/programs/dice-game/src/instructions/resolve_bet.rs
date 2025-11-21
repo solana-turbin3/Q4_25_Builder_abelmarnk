@@ -133,6 +133,10 @@ impl<'info> ResolveBet<'info>{
                 ok_or(DiceError::Overflow)?.
                 // The vault cannot give more lamports than it has, for some values generated 
                 // from this process the payout may exceed the balance of the vault.
+                // Coming back to this later, this is only so the test for this program can pass, 
+                // it would be more ideal to let it fail, so the bet is not resolved until the
+                // user is completely paid off, though the tests could also be modified to capture
+                // this case
                 min(self.vault.lamports()); 
 
             
