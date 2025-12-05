@@ -1,3 +1,6 @@
 [submodule "week-1"]
 	path = week-1
 	url = https://github.com/abelmarnk/solana-starter.git
+[submodule "capstone/strategy"]
+	path = capstone/strategy
+	url = https://github.com/abelmarnk/idle-clmm-liquidity-manager.git
